@@ -1,0 +1,216 @@
+{
+  "name": "web-presence-soundcloud2discord-fix",
+  "version": "3.3.0",
+  "description": "Unofficial Web Presence fork with adjusted Discord status display",
+  "homepage": "https://github.com/nozomihrg0826/web-presence-soundcloud2discord-fix",
+  "main": "app/main.js",
+  "keywords": [
+    "web",
+    "discord",
+    "electron",
+    "rpc",
+    "rich presence",
+    "extension",
+    "music",
+    "radio",
+    "server",
+    "tray"
+  ],
+  "author": {
+    "name": "nozomihrg0826",
+    "url": "https://github.com/nozomihrg0826"
+  },
+  "contributors": [
+    {
+      "name": "KanashiiDev",
+      "email": "kanashiidev0@gmail.com",
+      "url": "https://github.com/KanashiiDev"
+    }
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.21.0"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "start:app": "electron .",
+    "clean": "rimraf dist",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:strict": "eslint . --max-warnings=0",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
+    "check-locales": "node scripts/checkMissingTranslations.js",
+    "check-locales:extension": "node scripts/checkMissingTranslations.js extension",
+    "check-locales:server": "node scripts/checkMissingTranslations.js server",
+    "build:win": "npm run clean && electron-builder --publish=never --win --x64",
+    "build:mac": "npm run clean && electron-builder --publish=never --mac --x64",
+    "build:mac:arm64": "npm run clean && electron-builder --publish=never --mac --arm64",
+    "build:mac:all": "npm run clean && electron-builder --publish=never --mac --x64 --arm64",
+    "build:mac:universal": "npm run clean && electron-builder --publish=never --mac --universal",
+    "build:linux": "npm run clean && electron-builder --publish=never --linux --config.compression=store --x64",
+    "build:linux:arm64": "npm run clean && electron-builder --publish=never --config.compression=store --linux --arm64",
+    "build:linux:all": "npm run clean && electron-builder --publish=never --config.compression=store --linux --x64 --arm64",
+    "build:appImage": "npm run clean && electron-builder --publish=never --config.compression=store --linux appImage --x64",
+    "build:appImage:arm64": "npm run clean && electron-builder --publish=never --config.compression=store --linux appImage --arm64",
+    "build:appImage:all": "npm run clean && electron-builder --publish=never --config.compression=store --linux appImage --x64 --arm64",
+    "build:rpm": "npm run clean && electron-builder --publish=never --linux rpm --x64",
+    "build:rpm:arm64": "npm run clean && electron-builder --publish=never --linux rpm --arm64",
+    "build:rpm:all": "npm run clean && electron-builder --publish=never --linux rpm --x64 --arm64",
+    "build:deb": "npm run clean && electron-builder --publish=never --linux deb --x64",
+    "build:deb:arm64": "npm run clean && electron-builder --publish=never --linux deb --arm64",
+    "build:deb:all": "npm run clean && electron-builder --publish=never --linux deb --x64 --arm64",
+    "build:pacman": "npm run clean && electron-builder --publish=never --linux pacman --x64",
+    "build:pacman:arm64": "npm run clean && electron-builder --publish=never --linux pacman --arm64",
+    "build:pacman:all": "npm run clean && electron-builder --publish=never --linux pacman  --x64 --arm64",
+    "build:ubuntu": "npm run build:deb",
+    "build:debian": "npm run build:deb",
+    "build:fedora": "npm run build:rpm",
+    "build:chrome": "cross-env TARGET=chrome node scripts/buildExtensions/build.js",
+    "build:firefox": "cross-env TARGET=firefox node scripts/buildExtensions/build.js",
+    "build:extensions": "npm run build:chrome && npm run build:firefox",
+    "pack": "electron-builder --dir",
+    "pack:chrome": "cross-env TARGET=chrome node scripts/packExtensions.js",
+    "pack:firefox": "cross-env TARGET=firefox node scripts/packExtensions.js",
+    "pack:extensions": "npm run pack:chrome && npm run pack:firefox",
+    "build-and-pack": "npm run build:extensions && npm run pack:extensions",
+    "build-and-pack:chrome": "npm run build:chrome && npm run pack:chrome",
+    "build-and-pack:firefox": "npm run build:firefox && npm run pack:firefox",
+    "prepare-release": "npm run build-and-pack && node scripts/prepareRelease.js"
+  },
+  "dependencies": {
+    "@xhayper/discord-rpc": "^1.5.1",
+    "cors": "^2.8.6",
+    "electron-log": "^5.4.4",
+    "electron-updater": "^6.8.9",
+    "express": "^5.2.1",
+    "semver": "^7.8.5",
+    "simple-json-db": "^2.0.0",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "acorn": "^8.18.0",
+    "acorn-walk": "^8.3.5",
+    "archiver": "^8.0.0",
+    "autoprefixer": "^10.6.1",
+    "cross-env": "^10.1.0",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "eslint": "^9.39.5",
+    "fs-extra": "^11.4.1",
+    "postcss": "^8.5.28",
+    "prettier": "^3.9.9",
+    "rimraf": "^6.1.3"
+  },
+  "build": {
+    "appId": "com.kanashiidev.web.presence",
+    "productName": "Web Presence Bridge",
+    "copyright": "Copyright © 2025 KanashiiDev",
+    "electronLanguages": [
+      "en-US"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "nozomihrg0826",
+        "repo": "web-presence-soundcloud2discord-fix"
+      }
+    ],
+    "asar": true,
+    "compression": "maximum",
+    "directories": {
+      "output": "dist/${platform}"
+    },
+    "win": {
+      "artifactName": "web-presence-SC2DC-${version}-${arch}.exe",
+      "target": "nsis",
+      "icon": "app/assets/icon/icon.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "rpm",
+        "deb",
+        "pacman"
+      ],
+      "artifactName": "web-presence-${version}-${arch}.${ext}",
+      "executableName": "web-presence-bridge",
+      "category": "Audio",
+      "icon": "app/assets/icon",
+      "maintainer": "KanashiiDev <kanashiidev0@gmail.com>",
+      "synopsis": "Show your web presence on Discord!",
+      "description": "Show your web presence on Discord!",
+      "desktop": {
+        "entry": {
+          "Name": "Web Presence Bridge",
+          "Comment": "Show your web presence on Discord!",
+          "Keywords": "discord;web;presence;",
+          "Categories": "Audio;Music;",
+          "Icon": "web-presence-bridge"
+        }
+      }
+    },
+    "rpm": {
+      "depends": [
+        "glibc",
+        "libX11",
+        "libxcb"
+      ]
+    },
+    "deb": {
+      "depends": [
+        "libc6",
+        "libx11-6",
+        "libxcb1"
+      ],
+      "priority": "optional"
+    },
+    "mac": {
+      "identity": "-",
+      "hardenedRuntime": false,
+      "category": "public.app-category.utilities",
+      "target": [
+        {
+          "target": "dmg"
+        }
+      ],
+      "artifactName": "web-presence-${version}-${arch}.${ext}",
+      "icon": "app/assets/icon/icon.icns",
+      "darkModeSupport": true,
+      "extendInfo": {
+        "LSUIElement": true
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "${productName}",
+      "installerSidebar": "app/assets/installer/sidebar.bmp",
+      "installerIcon": "app/assets/icon/icon.ico",
+      "uninstallDisplayName": "${productName}",
+      "uninstallerIcon": "app/assets/icon/icon.ico"
+    },
+    "files": [
+      "app/**",
+      "server/**",
+      "shared/**",
+      "locales/**",
+      "package.json",
+      "!**/*.map",
+      "!**/*.md"
+    ],
+    "extraResources": [
+      {
+        "from": "scripts/discord_ipc_diagnostic.sh",
+        "to": "discord_ipc_diagnostic.sh"
+      }
+    ],
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "afterPack": "./scripts/buildCleanup.js"
+  }
+}

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Web Presence Server Dashboard</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="libs/simplebar.css" />
+    <link rel="stylesheet" href="libs/tom-select.css" />
+    <link rel="stylesheet" href="shared/css-config.css" />
+    <link rel="stylesheet" href="shared/css-global.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <div id="bg-layer"></div>
+  <body data-theme="dark">
+    <header data-i18n="app.title">Web Presence Server Dashboard</header>
+
+    <div class="container">
+      <!-- Navigation -->
+      <span id="actions">
+        <span id="toggleContainer" data-i18n="actions.toggle_view" data-i18n-attr="title" role="button" aria-label="Toggle Grid/List View"></span>
+        <span id="settingsToggle" data-i18n="actions.settings" data-i18n-attr="title" role="button" aria-label="Open Settings"></span>
+        <span id="settingsBack" data-i18n="actions.back" data-i18n-attr="title" style="display: none" role="button" aria-label="Back to Dashboard"></span>
+      </span>
+
+      <!-- Settings Container -->
+      <div id="settingsContainer" style="display: none">
+        <h2 id="settingsTitle" data-i18n="settings.title"></h2>
+        <form id="settingsForm"></form>
+        <div class="buttons">
+          <button id="saveSettingsBtn" class="save-settings-btn" type="button" data-i18n="settings.save">Save Changes</button>
+          <button id="resetSettingsBtn" class="reset-settings-btn" type="button" data-i18n="settings.reset">Reset to Default</button>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main">
+        <div class="theme">
+          <div class="left">
+            <!-- Status -->
+            <section>
+              <h2 id="rpcHeader" data-i18n="rpc.status">RPC Status</h2>
+              <div class="status-box">
+                <div class="status">
+                  <span data-i18n="rpc.label">Status:</span>
+                  <span id="rpcStatus" aria-live="polite">Loading...</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Last Update -->
+            <section>
+              <h2 class="collapsible" role="button">
+                <span data-i18n="activity.last">Last Update</span>
+                <span class="arrow"></span>
+              </h2>
+              <div class="last-activity activity-box">
+                <div id="lastActivityWrapper" data-simplebar>
+                  <pre id="lastActivityJson">{ }</pre>
+                </div>
+              </div>
+            </section>
+            <!-- Recent Songs -->
+            <section>
+              <h2 class="collapsible history" role="button">
+                <span data-i18n="history.title">Recent Songs</span>
+
+                <select id="historyFilter">
+                  <option value="all" data-i18n="common.all">All</option>
+                </select>
+
+                <span class="arrow"></span>
+              </h2>
+              <div class="history activity-box">
+                <div id="historyWrapper" data-simplebar>
+                  <div id="historyContainer" role="log" aria-live="polite"></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Recent Videos -->
+            <section>
+              <h2 class="collapsible history watch" role="button">
+                <span data-i18n="history.title.watch">Recent Videos</span>
+                <select id="watchFilter">
+                  <option value="all" data-i18n="common.all">All</option>
+                </select>
+                <span class="arrow"></span>
+              </h2>
+              <div class="watch activity-box">
+                <div id="watchWrapper" data-simplebar>
+                  <div id="watchContainer" role="log" aria-live="polite"></div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="right">
+            <!-- Activity Card -->
+            <section id="activityCardContainer">
+              <h2 id="activityCardHeader" data-i18n="activity.title">Now Listening</h2>
+              <div class="activity-card" id="activityCard">
+                <div class="activity-body">
+                  <div class="activity-cover">
+                    <img id="coverImage" src="assets/icon-dark.png" alt="Cover" loading="lazy" />
+                  </div>
+
+                  <div class="activity-info">
+                    <h2 id="trackTitle">Title</h2>
+                    <p id="trackArtist" class="artist">Artist</p>
+                    <p id="trackSource" class="source">Source</p>
+
+                    <div class="progress-container">
+                      <span id="timePassed">00:00</span>
+                      <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <div id="progressFill" class="progress" style="width: 0%"></div>
+                      </div>
+                      <span id="duration">00:00</span>
+                    </div>
+
+                    <div class="link-container" id="linkContainer">
+                      <a id="trackLink1" class="link" style="display: none" target="_blank" rel="noopener">Button 1</a>
+                      <a id="trackLink2" class="link" style="display: none" target="_blank" rel="noopener">Button 2</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Current Activity -->
+            <section>
+              <h2 class="collapsible" role="button">
+                <span data-i18n="activity.current">Current Activity</span>
+                <span class="arrow"></span>
+              </h2>
+              <div class="activity activity-box">
+                <div id="activityWrapper" data-simplebar>
+                  <pre id="activityJson">{ }</pre>
+                </div>
+              </div>
+            </section>
+
+            <!-- Stats -->
+            <div id="listenChartContainer"></div>
+            <div id="watchChartContainer"></div>
+          </div>
+        </div>
+
+        <!-- Logs -->
+        <section id="LogsContainer">
+          <h2 class="collapsible logs" role="button">
+            <span data-i18n="logs.title"></span>
+
+            <label class="log-select">
+              <select id="errorFilter" data-i18n-attr="aria-label" data-i18n="logs.filter">
+                <option value="all" data-i18n="common.all">All</option>
+                <option value="error" data-i18n="logs.error">Error</option>
+                <option value="info" data-i18n="logs.info">Info</option>
+              </select>
+            </label>
+
+            <span class="arrow"></span>
+          </h2>
+          <div class="logs activity-box">
+            <div id="logsWrapper" data-simplebar>
+              <div id="logsContainer" role="log" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <a href="https://github.com/KanashiiDev/web-presence">
+        <span data-i18n="footer.text">Web Presence by KanashiiDev</span>
+      </a>
+    </footer>
+
+    <!-- Libs -->
+    <script src="libs/simplebar.js"></script>
+    <script src="libs/chart.js"></script>
+    <script src="libs/tinycolor.js"></script>
+    <script src="libs/tom-select.js"></script>
+    <script src="../../shared/tom-select-plugins.js"></script>
+    <script src="libs/html2canvas-pro.js"></script>
+    <script src="../../shared/i18n.js"></script>
+    <script src="../../shared/dialog.js"></script>
+
+    <!-- Main -->
+    <script type="module" src="index.js"></script>
+  </body>
+</html>

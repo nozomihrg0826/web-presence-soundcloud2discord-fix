@@ -1,0 +1,121 @@
+:root,
+:host,
+#userRpc-selectorRoot {
+  /*Transitions*/
+  --transition-reduced: 0.3s;
+  --transition-reduced-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.6s;
+  /*Border Radius*/
+  --radius-sm: 4px;
+  --radius-default: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  /*Fonts*/
+  --font-xs: 10.5px;
+  --font-sm: 11.5px;
+  --font-md: 12px;
+  --font-md-lg: 13.5px;
+  --font-lg: 14px;
+  --font-h1: 18px;
+  --font-h2: 16px;
+  --font-h3: 14px;
+  --font-h4: 12px;
+  --backdrop-blur-amount: 5px;
+}
+
+:root.reduced-motion,
+:host.reduced-motion {
+  --transition-reduced: 0;
+  --transition-reduced-fast: 0;
+}
+
+/* Default Dark Theme */
+[data-theme="dark"] {
+  /*Background*/
+  --background-color: #1e1e1e;
+  /*Foreground*/
+  --foreground-color-100: #262626;
+  --foreground-color-200: #303030;
+  --foreground-color-300: #3c3c3c;
+  --foreground-color-400: #464646;
+  --foreground-color-500: #565656;
+  --foreground-color-600: #686868;
+  /*Texts*/
+  --text-color-btn: #ddd;
+  --text-color-primary: #ddd;
+  --text-color-secondary: #c5c5c5;
+  --text-color-muted: #999;
+  /*Scrollbar*/
+  --scrollbar-color: #474747;
+  --scrollbar-color-hover: #666;
+  /*Link*/
+  --link-color: #62c9d5;
+  --link-color-bright: #6bdae6;
+  /*Shadow*/
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  /*Border*/
+  --border-color: #464646;
+  --border-color-bright: #666;
+  /*Others*/
+  --warning-color: #7a6508;
+  --alert-color: #782020;
+  --accent-color: #425c83;
+  --accent-color-border: #425c83;
+  --accent-color-bright: #4e6f97;
+  --switch-toggle-color: #ddd;
+  --icon-color: #ddd;
+  --red-color: #f44336;
+  --red-color-dark: #8a251e;
+  --blue-color: #4681da;
+  --blue-color-dark: #3a6292;
+  --yellow-color: #ffc107;
+  --yellow-color-dark: #977718;
+  --green-color: #4caf50;
+  --green-color-dark: #1f7021;
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  /*Background*/
+  --background-color: #ffffff;
+  /*Foreground*/
+  --foreground-color-100: #f9f9f9;
+  --foreground-color-200: #f5f5f5;
+  --foreground-color-300: #eeeeee;
+  --foreground-color-400: #e7e7e7;
+  --foreground-color-500: #e0e0e0;
+  --foreground-color-600: #d9d9d9;
+  /*Texts*/
+  --text-color-btn: #ffffff;
+  --text-color-primary: #1a1a1a;
+  --text-color-secondary: #333333;
+  --text-color-muted: #666666;
+  /*Scrollbar*/
+  --scrollbar-color: #d8d8d8;
+  --scrollbar-color-hover: #c5c5c5;
+  /*Link*/
+  --link-color: #0891b2;
+  --link-color-bright: #0e7490;
+  /*Shadow*/
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  /*Border*/
+  --border-color: #d0d0d0;
+  --border-color-bright: #c0c0c0;
+  /*Others*/
+  --warning-color: #b38600;
+  --alert-color: #c53030;
+  --accent-color: #425c83;
+  --accent-color-border: #425c83;
+  --accent-color-bright: #4e6f97;
+  --switch-toggle-color: #f4f4f4;
+  --icon-color: #3c3c3c;
+  --red-color: #e53e3e;
+  --red-color-dark: #c53030;
+  --blue-color: #3182ce;
+  --blue-color-dark: #2b6cb0;
+  --yellow-color: #d69e2e;
+  --yellow-color-dark: #b7791f;
+  --green-color: #38a169;
+  --green-color-dark: #2f855a;
+}
